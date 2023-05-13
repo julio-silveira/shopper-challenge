@@ -15,8 +15,9 @@ export class ProductsService {
     return { message: 'Produto cadastrado com sucesso' };
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async findAll() {
+    const products = await this.prisma.product.findMany();
+    return products;
   }
 
   async findOne(code: number): Promise<Product | null> {

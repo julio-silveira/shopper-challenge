@@ -20,6 +20,7 @@ describe('ProductsService', () => {
             product: {
               create: jest.fn(),
               findUnique: jest.fn(),
+              findMany: jest.fn(),
             },
           },
         },
