@@ -20,6 +20,36 @@ describe('ProductsController', () => {
     expect(controller).toBeDefined();
   });
 
+  describe('findOne', async () => {
+    it('should return a product', async () => {
+      const product = {
+        code: 100,
+        name: 'SODA',
+        costPrice: 10,
+        salesPrice: 20,
+      };
+
+      jest.spyOn(service, 'findOne').mockReturnValue(product);
+
+      const response = await controller.findOne(product.code);
+      expect(response).toEqual(product);
+    });
+
+    it('should return a message when a product with code not registered', async () => {
+      const product = {
+        code: 100,
+        name: 'SODA',
+        costPrice: 10,
+        salesPrice: 20,
+      };
+
+      jest.spyOn(service, 'findOne').mockReturnValue(null);
+
+      const response = await controller.findOne(product.code);
+      expect(response).toEqual({ message: 'Produto não encontrado' });
+    });
+  });
+
   describe('create', async () => {
     it('should create a product', async () => {
       const product = {
