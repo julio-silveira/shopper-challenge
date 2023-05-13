@@ -1,13 +1,16 @@
 import { PrismaService } from '@/prisma/prisma.service';
-import { product, createProduct } from '@Test/mocks/data';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { TestingModule, Test } from '@nestjs/testing';
+import { products, createProduct } from '@Test/mocks/data';
+
 import { ProductsService } from '../services/products.service';
 import { ProductsController } from './products.controller';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
   let service: ProductsService;
+
+  const product = products[0];
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -57,6 +60,15 @@ describe('ProductsController', () => {
       await expect(controller.create(createProduct)).rejects.toThrow(
         BadRequestException,
       );
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return all products', async () => {
+      jest.spyOn(service, 'findAll').mockResolvedValue(products);
+
+      const response = await controller.findAll();
+      expect(response).toEqual(products);
     });
   });
 });
