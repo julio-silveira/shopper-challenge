@@ -10,4 +10,6 @@ EXPOSE ${API_PORT}
 
 COPY . .
 
+RUN npx prisma generate 
+
 CMD ["npm", "start"]
