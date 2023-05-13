@@ -29,3 +29,9 @@ export const createProduct: CreateProductDto = {
   costPrice: 10,
   salesPrice: 20,
 };
+
+export const parsedCsvData = [
+  ['16', '25.50'],
+  ['18', '30'],
+  ['19', '20'],
+];

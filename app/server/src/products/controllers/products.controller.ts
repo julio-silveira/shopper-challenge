@@ -1,4 +1,3 @@
-import { csvParser } from '@/utils/csv.parser';
 import {
   Controller,
   Post,
@@ -8,13 +7,11 @@ import {
   Param,
   NotFoundException,
   Patch,
-  Delete,
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { callbackify } from 'util';
 
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';

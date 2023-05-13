@@ -23,7 +23,5 @@ export const csvParser = async (filePath: string): Promise<string[][]> => {
 const deleteTempFile = (filePath: string) => {
   try {
     fs.unlinkSync(filePath);
-  } catch (err) {
-    Logger.error(err.message);
-  }
+  } catch (err) {}
 };

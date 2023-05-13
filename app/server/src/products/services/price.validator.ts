@@ -7,7 +7,6 @@ export class PriceValidator {
   private priceDifference: number;
   private priceDifferencePercentage: number;
   private maxPriceDifferencePercentage = 10;
-  private minPriceDifferencePercentage = -10;
 
   constructor({
     costPrice: costPrice,
@@ -18,14 +17,14 @@ export class PriceValidator {
     this.currentPrice = currentPrice;
     this.newPrice = newPrice;
     this.priceDifference = this.newPrice - this.currentPrice;
-    this.priceDifferencePercentage =
-      (this.priceDifference / this.currentPrice) * 100;
+    this.priceDifferencePercentage = Math.abs(
+      (this.priceDifference / this.currentPrice) * 100,
+    );
   }
 
   validatePriceVariation(): boolean {
     const isInPriceRange =
-      this.priceDifferencePercentage > this.maxPriceDifferencePercentage ||
-      this.priceDifferencePercentage < -this.minPriceDifferencePercentage;
+      this.priceDifferencePercentage <= this.maxPriceDifferencePercentage;
 
     return isInPriceRange;
   }
