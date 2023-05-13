@@ -21,12 +21,12 @@ services:
     build: ./server
     working_dir: /server
     volumes:
-      - ./server/src:/server/server
+      - ./server/src:/server/src
     ports:
       - ${API_PORT}:${API_PORT}
     command: npm run start:dev
-    env_file:
-       - .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       - db
   

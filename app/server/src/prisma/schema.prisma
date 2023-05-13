@@ -15,15 +15,17 @@ model Product {
   name        String
   costPrice   Decimal   @db.Decimal(9,2)
   salesPrice  Decimal   @db.Decimal(9,2)
+  packs       Pack[]    @relation("pack")
+  component   Pack[]    @relation("component")
 
   @@map("products")
 }
 
 model Pack {
   id         Int       @id @default(autoincrement())
-  pack       Product   @relation(fields: [packId], references: [code])
-  
+  pack       Product   @relation(fields: [packId], references: [code], name: "pack")
   packId     Int
+  product    Product   @relation(fields: [productId], references: [code], name: "component")
   productId  Int
   qty        Int
 }
