@@ -9,3 +9,10 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model products {
+  code        Int       @id @default(autoincrement())
+  name        String
+  costPrice   Decimal   @db.Decimal(9,2)
+  salesPrice  Decimal   @db.Decimal(9,2)
+}
