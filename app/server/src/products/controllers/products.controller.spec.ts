@@ -1,29 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ProductsController } from './products.controller';
+import { PrismaService } from '@/prisma/prisma.service';
+import { product, createProduct } from '@Test/mocks/data';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { TestingModule, Test } from '@nestjs/testing';
 import { ProductsService } from '../services/products.service';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { ProductEntity } from '../entities/product.entity';
-import { CreateProductDto } from '../dto/create-product.dto';
-import { PrismaService } from '../../prisma/prisma.service';
+import { ProductsController } from './products.controller';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
   let service: ProductsService;
-
-  const product: ProductEntity = {
-    code: 100,
-    name: 'SODA',
-    costPrice: new Prisma.Decimal(10),
-    salesPrice: new Prisma.Decimal(20),
-  };
-
-  const createProduct: CreateProductDto = {
-    code: 100,
-    name: 'SODA',
-    costPrice: 10,
-    salesPrice: 20,
-  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

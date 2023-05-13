@@ -1,27 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { PrismaService } from '@/prisma/prisma.service';
+import { TestingModule, Test } from '@nestjs/testing';
+import { product, createProduct } from '@Test/mocks/data';
 import { ProductsService } from './products.service';
-import { PrismaService } from '../../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
-import { CreateProductDto } from '../dto/create-product.dto';
-import { ProductEntity } from '../entities/product.entity';
 
 describe('ProductsService', () => {
   let service: ProductsService;
   let prisma: PrismaService;
-
-  const product: ProductEntity = {
-    code: 100,
-    name: 'SODA',
-    costPrice: new Prisma.Decimal(10),
-    salesPrice: new Prisma.Decimal(20),
-  };
-
-  const createProduct: CreateProductDto = {
-    code: 100,
-    name: 'SODA',
-    costPrice: 10,
-    salesPrice: 20,
-  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
