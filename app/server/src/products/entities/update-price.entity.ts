@@ -4,5 +4,5 @@ export class UpdatePriceEntity {
   name?: string;
   currentPrice?: number;
   newPrice?: number;
-  message?: [string];
+  message?: string[];
 }

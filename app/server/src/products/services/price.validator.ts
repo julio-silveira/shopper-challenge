@@ -1,3 +1,5 @@
+import { PriceValidatorConstructorParams } from '../interfaces/price-validator.interface';
+
 export class PriceValidator {
   private costPrice: number;
   private currentPrice: number;
@@ -6,18 +8,15 @@ export class PriceValidator {
   private priceDifferencePercentage: number;
   private maxPriceDifferencePercentage = 10;
   private minPriceDifferencePercentage = -10;
+
   constructor({
     costPrice: costPrice,
     currentPrice,
     newPrice,
-  }: {
-    costPrice: string;
-    currentPrice: string;
-    newPrice: string;
-  }) {
-    this.costPrice = +costPrice;
-    this.currentPrice = +currentPrice;
-    this.newPrice = +newPrice;
+  }: PriceValidatorConstructorParams) {
+    this.costPrice = costPrice;
+    this.currentPrice = currentPrice;
+    this.newPrice = newPrice;
     this.priceDifference = this.newPrice - this.currentPrice;
     this.priceDifferencePercentage =
       (this.priceDifference / this.currentPrice) * 100;
