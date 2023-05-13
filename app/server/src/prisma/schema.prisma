@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Product {
-  code        Int       @id @default(autoincrement())
+  code        Int       @id 
   name        String
   costPrice   Decimal   @db.Decimal(9,2)
   salesPrice  Decimal   @db.Decimal(9,2)
