@@ -12,11 +12,13 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { callbackify } from 'util';
 
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { ProductsService } from '../services/products.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('products')
 export class ProductsController {
@@ -52,23 +54,24 @@ export class ProductsController {
   }
 
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
-    @UploadedFile() file: Express.Multer.File,
   ) {
-    //temporary
-    console.log(updateProductDto);
-
-    const teste = await csvParser('../preco.csv');
-    console.log(teste);
-
-    return teste;
+    return this.productsService.update(+id, updateProductDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+  @Patch()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: '/tmp',
+      }),
+    }),
+  )
+  async validateProductCsv(@UploadedFile() file: Express.Multer.File) {
+    const parsedCsvFile = await this.productsService.parseProductCsv(file.path);
+
+    return parsedCsvFile;
   }
 }

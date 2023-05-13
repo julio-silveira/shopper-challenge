@@ -1,9 +1,11 @@
 import { PrismaService } from '@/prisma/prisma.service';
+import { csvParser } from '@/utils/csv.parser';
 import { Injectable } from '@nestjs/common';
 import { Product } from '@prisma/client';
 
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
+import { UpdatePriceEntity } from '../entities/update-price.entity';
 
 @Injectable()
 export class ProductsService {
@@ -29,7 +31,36 @@ export class ProductsService {
     return `This action updates a #${id} product`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async parseProductCsv(filePath: string) {
+    const csvData = await csvParser(filePath);
+
+    const mappedCsvData = csvData.map((row) => {
+      return { productId: row[0], newPrice: row[1] };
+    });
+
+    return mappedCsvData;
+  }
+
+  async validateProduct(
+    code: string,
+    newPrice: string,
+  ): Promise<UpdatePriceEntity> {
+    const product = await this.findOne(+code);
+
+    if (!product) {
+      return {
+        code: +code,
+        message: ['Produto não encontrado'],
+        valid: false,
+      };
+    }
+
+    return {
+      code: +code,
+      name: product.name,
+      currentPrice: +product.salesPrice,
+      newPrice: +newPrice,
+      valid: true,
+    };
   }
 }

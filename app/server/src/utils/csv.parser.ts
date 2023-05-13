@@ -1,19 +1,29 @@
+import { Logger } from '@nestjs/common';
 import { parse } from 'csv-parse';
 import * as fs from 'fs';
-import * as path from 'path';
 
-export const csvParser = async (file: string) => {
-  const PATH = path.join(__dirname, '../../', '/src/utils/preco.csv');
-
-  return new Promise((resolve) => {
-    const buffer = [];
-    fs.createReadStream(PATH)
+export const csvParser = async (filePath: string): Promise<string[][]> => {
+  const csvData: string[][] = await new Promise((resolve) => {
+    const buffer: string[][] = [];
+    fs.createReadStream(filePath)
       .pipe(parse({ delimiter: ',', from_line: 2 }))
       .on('data', (row) => {
-        buffer.push({ productId: row[0], newPrice: row[1] });
+        buffer.push(row);
       })
       .on('end', () => {
         resolve(buffer);
       });
   });
+
+  deleteTempFile(filePath);
+
+  return csvData;
+};
+
+const deleteTempFile = (filePath: string) => {
+  try {
+    fs.unlinkSync(filePath);
+  } catch (err) {
+    Logger.error(err.message);
+  }
 };
