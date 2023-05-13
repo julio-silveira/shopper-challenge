@@ -8,8 +8,10 @@ import { Product } from '@prisma/client';
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  async create(createProductDto: CreateProductDto) {
+    await this.prisma.product.create({ data: createProductDto });
+
+    return { message: 'Produto cadastrado com sucesso' };
   }
 
   findAll() {

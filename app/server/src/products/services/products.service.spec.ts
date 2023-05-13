@@ -1,17 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsService } from './products.service';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Prisma, Product } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+import { CreateProductDto } from '../dto/create-product.dto';
+import { ProductEntity } from '../entities/product.entity';
 
 describe('ProductsService', () => {
   let service: ProductsService;
   let prisma: PrismaService;
 
-  const product: Product = {
+  const product: ProductEntity = {
     code: 100,
     name: 'SODA',
     costPrice: new Prisma.Decimal(10),
     salesPrice: new Prisma.Decimal(20),
+  };
+
+  const createProduct: CreateProductDto = {
+    code: 100,
+    name: 'SODA',
+    costPrice: 10,
+    salesPrice: 20,
   };
 
   beforeEach(async () => {
@@ -56,8 +65,8 @@ describe('ProductsService', () => {
 
   describe('create', () => {
     it('should create a product', async () => {
-      const message = await service.create(product);
-      expect(message).toEqual('Producto cadastrado com sucesso');
+      const message = await service.create(createProduct);
+      expect(message).toEqual({ message: 'Produto cadastrado com sucesso' });
     });
   });
 });

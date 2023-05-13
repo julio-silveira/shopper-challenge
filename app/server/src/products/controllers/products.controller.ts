@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
 import { CreateProductDto } from '../dto/create-product.dto';
@@ -17,8 +18,16 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  async create(@Body() createProductDto: CreateProductDto) {
+    const product = await this.productsService.findOne(createProductDto.code);
+
+    if (product) {
+      throw new BadRequestException('Produto já cadastrado');
+    }
+
+    const newProduct = await this.productsService.create(createProductDto);
+
+    return newProduct;
   }
 
   @Get()
