@@ -23,9 +23,11 @@ services:
     volumes:
       - ./server/src:/server/src
     ports:
-      - ${API_PORT}:${API_PORT}
+      - ${PORT}:${PORT}
       - 5555:5555
     command: npm run start:dev
+    env_file:
+      - .env
     environment:
       DATABASE_URL: ${DATABASE_URL}
     depends_on:

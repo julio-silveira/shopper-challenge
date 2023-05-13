@@ -57,7 +57,7 @@ export const products: Prisma.ProductUncheckedCreateInput[] = [
   },
   {
     code: 1000,
-    name: '1BEBIDA ENERGÉTICA VIBE 2L - 6 UNIDADES',
+    name: 'BEBIDA ENERGÉTICA VIBE 2L - 6 UNIDADES',
     costPrice: 48.54,
     salesPrice: 53.94,
   },

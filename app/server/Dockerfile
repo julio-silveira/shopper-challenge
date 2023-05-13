@@ -6,9 +6,9 @@ COPY package*.json ./
 
 RUN npm install
 
-EXPOSE ${API_PORT}
-
 COPY . .
+
+ARG PORT
 
 RUN npx prisma generate 
 
