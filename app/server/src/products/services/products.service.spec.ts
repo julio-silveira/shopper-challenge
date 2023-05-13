@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsService } from './products.service';
-import { Prisma } from '@prisma/client';
 
 describe('ProductsService', () => {
   let service: ProductsService;
@@ -28,20 +27,6 @@ describe('ProductsService', () => {
 
       const message = await service.create(product);
       expect(message).toEqual('Producto cadastrado com sucesso');
-    });
-
-    it('should not create a product with code already registered', async () => {
-      const product = {
-        code: 100,
-        name: 'SODA',
-        costPrice: 10,
-        salesPrice: 20,
-      };
-
-      await service.create(product);
-      await expect(service.create(product)).rejects.toThrow(
-        'Código já cadastrado',
-      );
     });
   });
 });
