@@ -11,6 +11,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 
 import { CreateProductDto } from '../dto/create-product.dto';
@@ -18,6 +19,7 @@ import { UpdateProductPriceDto } from '../dto/update-product-price.dto';
 import { PacksService } from '../services/packs.service';
 import { ProductsService } from '../services/products.service';
 
+@ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(
@@ -26,6 +28,13 @@ export class ProductsController {
   ) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a new product' })
+  @ApiResponse({
+    status: 201,
+    description: 'Produto cadastrado com sucesso',
+  })
+  // @ApiParam({ schema: CreateProductDto })
+  @ApiResponse({ status: 400, description: 'Produto já cadastrado' })
   async create(@Body() createProductDto: CreateProductDto) {
     const product = await this.productsService.findOne(createProductDto.code);
 
@@ -33,9 +42,9 @@ export class ProductsController {
       throw new BadRequestException('Produto já cadastrado');
     }
 
-    const newProduct = await this.productsService.create(createProductDto);
+    const message = await this.productsService.create(createProductDto);
 
-    return newProduct;
+    return message;
   }
 
   @Get()
