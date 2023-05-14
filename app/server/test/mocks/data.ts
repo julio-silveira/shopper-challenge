@@ -112,19 +112,28 @@ export const packProduct: PackProductEntity[] = [
   },
 ];
 
-export const packWithProducts: PackEntity[] = [
+export const packsWithoutProducts: PackEntity[] = [
   {
     code: 1000,
     name: 'PACK 1',
     costPrice: 15,
     salesPrice: 40,
-    products: [packProduct[0], packProduct[1]],
   },
   {
     code: 1001,
     name: 'PACK 2',
     costPrice: 85,
     salesPrice: 170,
+  },
+];
+
+export const packWithProducts: PackEntity[] = [
+  {
+    ...packsWithoutProducts[0],
+    products: [packProduct[0], packProduct[1]],
+  },
+  {
+    ...packsWithoutProducts[1],
     products: [packProduct[2], packProduct[3]],
   },
 ];
