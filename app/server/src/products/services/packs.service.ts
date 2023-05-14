@@ -16,7 +16,22 @@ export class PacksService {
   ) {}
 
   async findAll() {
-    return 'packs';
+    const pack = await this.prisma.pack.findMany();
+    if (pack.length === 0) {
+      return pack;
+    }
+
+    const packCodes = [...new Set(pack.map((p) => p.packId))];
+
+    const packs = await this.findPacks(packCodes);
+
+    return packs;
+  }
+
+  async findPacks(codes: number[]) {
+    return await Promise.all(
+      codes.map(async (code) => await this.findOne(code)),
+    );
   }
 
   async findOne(code: number): Promise<PackEntity> {

@@ -73,6 +73,7 @@ describe('PacksService', () => {
   describe('findAll', () => {
     it('should return a list of packs', async () => {
       jest.spyOn(prisma.pack, 'findMany').mockResolvedValueOnce(pack);
+      jest.spyOn(service, 'findPacks').mockResolvedValueOnce(packWithProducts);
 
       const result = await service.findAll();
 
