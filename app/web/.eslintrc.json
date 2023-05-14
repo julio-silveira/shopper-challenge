@@ -14,8 +14,6 @@
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
-        "plugin:@tanstack/eslint-plugin-query",
-        "eslint-plugin-import-helpers"
     ],
     "overrides": [
     ],
@@ -27,12 +25,16 @@
     "plugins": [
         "react",
         "@typescript-eslint",
-        "react-hooks"
+        "react-hooks",
+        "@tanstack/query",
+        "eslint-plugin-import-helpers"
     ],
     "rules": {
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/react-in-jsx-scope": "off",
+      "@tanstack/query/exhaustive-deps": "error",
+      "@tanstack/query/prefer-query-object-syntax": "error",
       "import-helpers/order-imports": [
         "warn",
         {
