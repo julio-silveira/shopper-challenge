@@ -12,7 +12,6 @@ import {
 
 import { PacksService } from './packs.service';
 import { ProductsService } from './products.service';
-import { error } from 'console';
 
 describe('PacksService', () => {
   let service: PacksService;

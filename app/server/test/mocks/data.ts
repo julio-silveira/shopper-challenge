@@ -171,6 +171,19 @@ export const packsWithoutProducts: ProductEntity[] = [
   },
 ];
 
+export const UpdatePriceMock: PriceUpdateInteface[] = [
+  {
+    code: 1000,
+    newPrice: 41,
+  },
+  {
+    code: 100,
+    newPrice: 80,
+  },
+  { code: 200, newPrice: 4 },
+  { code: 99999999999999, newPrice: 8 },
+];
+
 export const packWithProducts: PackEntity[] = [
   {
     code: 1000,

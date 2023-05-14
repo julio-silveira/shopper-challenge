@@ -19,7 +19,7 @@ export const reducePriceList = (
   pack: PackEntity,
   priceUpdateList: PriceUpdateInteface[],
 ) => {
-  return priceUpdateList.reduce(
+  const prices = priceUpdateList.reduce(
     (acc, curr) => {
       if (curr.code === pack.code) {
         return { ...acc, pack: curr };
@@ -28,13 +28,14 @@ export const reducePriceList = (
       if (currentProduct) {
         return {
           ...acc,
-          products: [...acc?.products, { ...curr, qty: currentProduct.qty }],
+          products: [...acc.products, { ...curr, qty: currentProduct.qty }],
         };
       }
       return acc;
     },
     { pack: null, products: [] },
   );
+  return prices;
 };
 
 export const reducePackPrice = (newPack: {
