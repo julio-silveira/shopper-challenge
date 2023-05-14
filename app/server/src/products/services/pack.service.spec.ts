@@ -1,9 +1,7 @@
 import { PrismaService } from '@/prisma/prisma.service';
-import * as csv from '@/utils/csv.parser';
 import { TestingModule, Test } from '@nestjs/testing';
 
 import { PacksService } from './packs.service';
-import { ProductsService } from './products.service';
 
 describe('PacksService', () => {
   let service: PacksService;
