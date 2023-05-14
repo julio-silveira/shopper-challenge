@@ -1,14 +1,13 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { csvParser } from '@/utils/csv.parser';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Product } from '@prisma/client';
 
 import { CreateProductDto } from '../dto/create-product.dto';
-import { UpdateProductPriceDto } from '../dto/update-product-price.dto';
+import { UpdatePriceDto } from '../dto/price.dto';
 import { UpdatePriceEntity } from '../entities/update-price.entity';
 import { PriceUpdateInteface } from '../interfaces/price-update.interface';
 import { PriceValidator } from './price.validator';
-import { UpdatePriceDto } from '../dto/price.dto';
 
 @Injectable()
 export class ProductsService {

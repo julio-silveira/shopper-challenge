@@ -6,7 +6,6 @@ import {
   Get,
   Param,
   NotFoundException,
-  Patch,
   UseInterceptors,
   UploadedFile,
   Put,
