@@ -8,6 +8,7 @@ import { PackEntity } from '../entities/pack.entity';
 import { PriceUpdateInteface } from '../interfaces/price-update.interface';
 import { PackMapper } from '../mappers/pack.mapper';
 import { ProductsService } from './products.service';
+import { roundFloat } from '@/utils/roundFloat';
 
 @Injectable()
 export class PacksService {
@@ -126,7 +127,7 @@ export class PacksService {
       0,
     );
 
-    if (newPack.pack.newPrice !== sumNewProductsPrice) {
+    if (newPack.pack.newPrice !== roundFloat(sumNewProductsPrice)) {
       throw new Error(
         'O preço do pacote deve ser igual a soma do preço dos produtos',
       );

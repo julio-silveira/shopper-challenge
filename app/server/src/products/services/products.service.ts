@@ -34,13 +34,17 @@ export class ProductsService {
   // }
 
   async parseProductCsv(filePath: string): Promise<PriceUpdateInteface[]> {
-    const csvData = await csvParser(filePath);
+    try {
+      const csvData = await csvParser(filePath);
 
-    const mappedCsvData = csvData.map((row) => {
-      return { code: +row[0], newPrice: +row[1] };
-    });
+      const mappedCsvData = csvData.map((row) => {
+        return { code: +row[0], newPrice: +row[1] };
+      });
 
-    return mappedCsvData;
+      return mappedCsvData;
+    } catch (err) {
+      return null;
+    }
   }
 
   async validatePrice(costPrice: number, salesPrice: number, newPrice: number) {

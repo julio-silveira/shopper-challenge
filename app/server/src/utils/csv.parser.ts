@@ -1,4 +1,3 @@
-import { Logger } from '@nestjs/common';
 import { parse } from 'csv-parse';
 import * as fs from 'fs';
 

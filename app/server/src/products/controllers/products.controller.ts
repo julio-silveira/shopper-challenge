@@ -73,6 +73,10 @@ export class ProductsController {
   async validateProductCsv(@UploadedFile() file: Express.Multer.File) {
     const parsedCsvFile = await this.productsService.parseProductCsv(file.path);
 
+    if (!parsedCsvFile) {
+      throw new BadRequestException('Arquivo inválido');
+    }
+
     const validatedProducts = Promise.all(
       parsedCsvFile.map(async ({ code, newPrice }) => {
         const product = await this.productsService.validateProduct(
@@ -81,7 +85,6 @@ export class ProductsController {
         );
 
         const pack = await this.packsService.findOne(code);
-
         if (pack) {
           try {
             await this.packsService.validatePackItens(pack, parsedCsvFile);
@@ -91,6 +94,7 @@ export class ProductsController {
               : (product.message = err.message);
           }
         }
+        return product;
       }),
     );
     return validatedProducts;
