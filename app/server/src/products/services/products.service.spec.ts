@@ -27,6 +27,7 @@ describe('ProductsService', () => {
               create: jest.fn(),
               findUnique: jest.fn(),
               findMany: jest.fn(),
+              updateMany: jest.fn(),
             },
           },
         },
@@ -137,6 +138,13 @@ describe('ProductsService', () => {
         newPrice: 20,
         valid: true,
       });
+    });
+  });
+
+  describe('updatePrices', () => {
+    it('should update product prices', async () => {
+      const response = await service.updatePrices([{ code: 1, newPrice: 20 }]);
+      expect(response).toEqual({ message: 'Preços atualizados com sucesso' });
     });
   });
 });
