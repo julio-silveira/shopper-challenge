@@ -5,6 +5,7 @@ import { Pack } from '@prisma/client';
 import { PackComponentEntity } from '../entities/pack-component.entity';
 import { PackProductEntity } from '../entities/pack-product.entity';
 import { PackEntity } from '../entities/pack.entity';
+import { PriceUpdateInteface } from '../interfaces/price-update.interface';
 import { PackMapper } from '../mappers/pack.mapper';
 import { ProductsService } from './products.service';
 
@@ -71,5 +72,64 @@ export class PacksService {
     };
 
     return packProduct;
+  }
+
+  async validatePackItens(
+    pack: PackEntity,
+    priceUpdateList: PriceUpdateInteface[],
+  ) {
+    await this.validateContent(pack, priceUpdateList);
+
+    await this.validateNewPackPrice(pack, priceUpdateList);
+  }
+
+  async validateContent(
+    pack: PackEntity,
+    priceUpdateList: PriceUpdateInteface[],
+  ) {
+    const containsAllProducts = pack.products.every(
+      (product) =>
+        product.code === pack.code ||
+        priceUpdateList.some((item) => item.code === product.code),
+    );
+
+    if (!containsAllProducts) {
+      throw new Error(
+        'A solicitação contém o novo preço de todos produtos do pacote',
+      );
+    }
+  }
+
+  async validateNewPackPrice(
+    pack: PackEntity,
+    priceUpdateList: PriceUpdateInteface[],
+  ) {
+    const newPack = priceUpdateList.reduce(
+      (acc, curr) => {
+        if (curr.code === pack.code) {
+          return { ...acc, pack: curr };
+        }
+        const currentProduct = pack.products.find((p) => p.code === curr.code);
+        if (currentProduct) {
+          return {
+            ...acc,
+            products: [...acc?.products, { ...curr, qty: currentProduct.qty }],
+          };
+        }
+        return acc;
+      },
+      { pack: null, products: [] },
+    );
+
+    const sumNewProductsPrice = newPack.products.reduce(
+      (acc, curr) => acc + curr.qty * curr.newPrice,
+      0,
+    );
+
+    if (newPack.pack.newPrice !== sumNewProductsPrice) {
+      throw new Error(
+        'O preço do pacote deve ser igual a soma do preço dos produtos',
+      );
+    }
   }
 }

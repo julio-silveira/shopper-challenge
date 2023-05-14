@@ -15,11 +15,15 @@ import { diskStorage } from 'multer';
 
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
+import { PacksService } from '../services/packs.service';
 import { ProductsService } from '../services/products.service';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly packsService: PacksService,
+  ) {}
 
   @Post()
   async create(@Body() createProductDto: CreateProductDto) {
@@ -71,7 +75,22 @@ export class ProductsController {
 
     const validatedProducts = Promise.all(
       parsedCsvFile.map(async ({ code, newPrice }) => {
-        return await this.productsService.validateProduct(code, newPrice);
+        const product = await this.productsService.validateProduct(
+          code,
+          newPrice,
+        );
+
+        const pack = await this.packsService.findOne(code);
+
+        if (pack) {
+          try {
+            await this.packsService.validatePackItens(pack, parsedCsvFile);
+          } catch (err) {
+            product.message
+              ? product.message.push(err.message)
+              : (product.message = err.message);
+          }
+        }
       }),
     );
     return validatedProducts;
