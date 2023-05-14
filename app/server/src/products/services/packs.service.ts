@@ -1,4 +1,5 @@
 import { PrismaService } from '@/prisma/prisma.service';
+import { roundFloat } from '@/utils/roundFloat';
 import { Injectable } from '@nestjs/common';
 import { Pack } from '@prisma/client';
 
@@ -8,7 +9,6 @@ import { PackEntity } from '../entities/pack.entity';
 import { PriceUpdateInteface } from '../interfaces/price-update.interface';
 import { PackMapper } from '../mappers/pack.mapper';
 import { ProductsService } from './products.service';
-import { roundFloat } from '@/utils/roundFloat';
 
 @Injectable()
 export class PacksService {

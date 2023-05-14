@@ -1,13 +1,14 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { csvParser } from '@/utils/csv.parser';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Product } from '@prisma/client';
 
 import { CreateProductDto } from '../dto/create-product.dto';
-import { UpdateProductDto } from '../dto/update-product.dto';
+import { UpdateProductPriceDto } from '../dto/update-product-price.dto';
 import { UpdatePriceEntity } from '../entities/update-price.entity';
 import { PriceUpdateInteface } from '../interfaces/price-update.interface';
 import { PriceValidator } from './price.validator';
+import { UpdatePriceDto } from '../dto/price.dto';
 
 @Injectable()
 export class ProductsService {
@@ -29,9 +30,32 @@ export class ProductsService {
     return product;
   }
 
-  // update(id: number, updateProductDto: UpdateProductDto) {
-  //   return `This action updates a #${id} product`;
-  // }
+  async updatePrices(productData: UpdatePriceDto[]) {
+    try {
+      await Promise.all(
+        productData.map(async (product) => {
+          const { code, newPrice } = product;
+
+          const productValidation = await this.validateProduct(code, newPrice);
+
+          if (
+            productValidation.message &&
+            productValidation.message.length > 0
+          ) {
+            throw Error('Produto Inválido');
+          }
+
+          await this.prisma.product.update({
+            where: { code },
+            data: { salesPrice: newPrice },
+          });
+        }),
+      );
+      return { message: 'Preços atualizados com sucesso' };
+    } catch (err) {
+      return null;
+    }
+  }
 
   async parseProductCsv(filePath: string): Promise<PriceUpdateInteface[]> {
     try {
