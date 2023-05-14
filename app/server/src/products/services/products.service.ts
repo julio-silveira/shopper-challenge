@@ -37,10 +37,7 @@ export class ProductsService {
 
           const productValidation = await this.validateProduct(code, newPrice);
 
-          if (
-            productValidation.message &&
-            productValidation.message.length > 0
-          ) {
+          if (!productValidation.valid) {
             throw Error('Produto Inválido');
           }
 

@@ -78,7 +78,7 @@ export class ProductsController {
       throw new BadRequestException('Arquivo inválido');
     }
 
-    const validatedProducts = Promise.all(
+    const validatedProducts = await Promise.all(
       parsedCsvFile.map(async ({ code, newPrice }) => {
         const product = await this.productsService.validateProduct(
           code,
@@ -92,12 +92,14 @@ export class ProductsController {
           } catch (err) {
             product.message
               ? product.message.push(err.message)
-              : (product.message = err.message);
+              : (product.message = [err.message]);
+            product.valid = false;
           }
         }
         return product;
       }),
     );
+
     return validatedProducts;
   }
 }

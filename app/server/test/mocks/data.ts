@@ -1,6 +1,7 @@
 import { PackComponentEntity } from '@/products/entities/pack-component.entity';
 import { PackProductEntity } from '@/products/entities/pack-product.entity';
 import { PackEntity } from '@/products/entities/pack.entity';
+import { UpdatePriceEntity } from '@/products/entities/update-price.entity';
 import { PriceUpdateInteface } from '@/products/interfaces/price-update.interface';
 import { Prisma } from '@prisma/client';
 import { CreateProductDto } from 'src/products/dto/create-product.dto';
@@ -35,15 +36,58 @@ export const createProduct: CreateProductDto = {
 };
 
 export const parsedCsvData = [
-  ['16', '25.50'],
-  ['18', '30'],
-  ['19', '20'],
+  ['16', '21'],
+  ['1000', '41'],
+  ['100', '80'],
+  ['200', '4'],
+  ['1001', '50'],
 ];
 
 export const productCsvData: PriceUpdateInteface[] = [
-  { code: 16, newPrice: 25.5 },
-  { code: 18, newPrice: 30 },
-  { code: 19, newPrice: 20 },
+  { code: 16, newPrice: 21 },
+  { code: 1000, newPrice: 41 },
+  { code: 100, newPrice: 80 },
+  { code: 200, newPrice: 4 },
+  { code: 1001, newPrice: 50 },
+];
+
+export const productUpdateMock: UpdatePriceEntity[] = [
+  {
+    code: 16,
+    name: 'SODA',
+    currentPrice: 20,
+    newPrice: 2,
+    valid: true,
+  },
+  {
+    code: 1000,
+    name: 'PACK 1',
+    currentPrice: 40,
+    newPrice: 41,
+    valid: true,
+  },
+  {
+    code: 100,
+    name: 'SODA',
+    currentPrice: 10,
+    newPrice: 10.5,
+    valid: true,
+  },
+  {
+    code: 200,
+    name: 'WATER',
+    currentPrice: 5,
+    newPrice: 5.3,
+    valid: true,
+  },
+  {
+    code: 1001,
+    name: 'PACK 2',
+    currentPrice: 50,
+    newPrice: 100,
+    valid: false,
+    message: ['A variação de preço não pode ser superior à 10%.'],
+  },
 ];
 
 export const pack: PackComponentEntity[] = [
@@ -141,5 +185,46 @@ export const packWithProducts: PackEntity[] = [
     costPrice: 85,
     salesPrice: 170,
     products: [packProduct[2], packProduct[3]],
+  },
+];
+
+export const invalidProductUpdateMock: UpdatePriceEntity[] = [
+  {
+    code: 100,
+    name: 'SODA',
+    currentPrice: 20,
+    newPrice: 25,
+    message: ['A variação de preço não pode ser superior à 10%.'],
+    valid: false,
+  },
+  {
+    code: 200,
+    name: 'WATER',
+    currentPrice: 10,
+    newPrice: 11,
+    message: ['A variação de preço não pode ser superior à 10%.'],
+    valid: false,
+  },
+];
+
+export const validatedProducsMock: UpdatePriceEntity[] = [
+  { code: 16, name: 'SODA', currentPrice: 20, newPrice: 2, valid: true },
+  {
+    code: 1000,
+    name: 'PACK 1',
+    currentPrice: 40,
+    newPrice: 41,
+    valid: false,
+    message: ['message'],
+  },
+  { code: 100, name: 'SODA', currentPrice: 10, newPrice: 10.5, valid: true },
+  { code: 200, name: 'WATER', currentPrice: 5, newPrice: 5.3, valid: true },
+  {
+    code: 1001,
+    name: 'PACK 2',
+    currentPrice: 50,
+    newPrice: 100,
+    valid: false,
+    message: ['A variação de preço não pode ser superior à 10%.', 'message'],
   },
 ];

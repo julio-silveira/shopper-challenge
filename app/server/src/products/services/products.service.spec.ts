@@ -6,13 +6,17 @@ import {
   createProduct,
   parsedCsvData,
   productCsvData,
+  productUpdateMock,
+  invalidProductUpdateMock,
 } from '@Test/mocks/data';
 
+import { PacksService } from './packs.service';
 import { ProductsService } from './products.service';
 
 describe('ProductsService', () => {
   let service: ProductsService;
   let prisma: PrismaService;
+  let packsService: PacksService;
 
   const product = products[0];
 
@@ -20,6 +24,7 @@ describe('ProductsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ProductsService,
+        PacksService,
         {
           provide: PrismaService,
           useValue: {
@@ -28,6 +33,7 @@ describe('ProductsService', () => {
               findUnique: jest.fn(),
               findMany: jest.fn(),
               updateMany: jest.fn(),
+              update: jest.fn(),
             },
           },
         },
@@ -36,6 +42,7 @@ describe('ProductsService', () => {
 
     service = module.get<ProductsService>(ProductsService);
     prisma = module.get<PrismaService>(PrismaService);
+    packsService = module.get<PacksService>(PacksService);
   });
 
   it('should be defined', () => {
@@ -80,6 +87,12 @@ describe('ProductsService', () => {
 
       const response = await service.parseProductCsv('path');
       expect(response).toEqual(productCsvData);
+    });
+    it('should return null when parse fail', async () => {
+      jest.spyOn(csv, 'csvParser').mockRejectedValue(new Error());
+
+      const response = await service.parseProductCsv('path');
+      expect(response).toEqual(null);
     });
   });
 
@@ -143,8 +156,18 @@ describe('ProductsService', () => {
 
   describe('updatePrices', () => {
     it('should update product prices', async () => {
-      const response = await service.updatePrices([{ code: 1, newPrice: 20 }]);
+      jest
+        .spyOn(service, 'validateProduct')
+        .mockResolvedValue(productUpdateMock[0]);
+      const response = await service.updatePrices([{ code: 16, newPrice: 21 }]);
       expect(response).toEqual({ message: 'Preços atualizados com sucesso' });
+    });
+    it('should return null when product is not valid', async () => {
+      jest
+        .spyOn(service, 'validateProduct')
+        .mockResolvedValue(invalidProductUpdateMock[0]);
+      const response = await service.updatePrices([{ code: 16, newPrice: 25 }]);
+      expect(response).toEqual(null);
     });
   });
 });

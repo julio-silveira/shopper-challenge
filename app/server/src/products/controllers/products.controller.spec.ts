@@ -1,25 +1,35 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { TestingModule, Test } from '@nestjs/testing';
-import { products, createProduct, productCsvData } from '@Test/mocks/data';
+import {
+  products,
+  createProduct,
+  productCsvData,
+  productUpdateMock,
+  packsWithoutProducts,
+  validatedProducsMock,
+} from '@Test/mocks/data';
 
+import { PacksService } from '../services/packs.service';
 import { ProductsService } from '../services/products.service';
 import { ProductsController } from './products.controller';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
   let service: ProductsService;
+  let packsService: PacksService;
 
   const product = products[0];
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProductsController],
-      providers: [ProductsService, PrismaService],
+      providers: [ProductsService, PrismaService, PacksService],
     }).compile();
 
     controller = module.get<ProductsController>(ProductsController);
     service = module.get<ProductsService>(ProductsService);
+    packsService = module.get<PacksService>(PacksService);
   });
 
   it('should be defined', () => {
@@ -75,13 +85,67 @@ describe('ProductsController', () => {
   describe('validateProductCsv', () => {
     it('should return a message when csv is valid', async () => {
       jest.spyOn(service, 'parseProductCsv').mockResolvedValue(productCsvData);
+      const validateProduct = jest.spyOn(service, 'validateProduct');
+      validateProduct.mockResolvedValueOnce(productUpdateMock[0]);
+      validateProduct.mockResolvedValueOnce(productUpdateMock[1]);
+      validateProduct.mockResolvedValueOnce(productUpdateMock[2]);
+      validateProduct.mockResolvedValueOnce(productUpdateMock[3]);
+      validateProduct.mockResolvedValueOnce(productUpdateMock[4]);
+
+      const findPack = jest.spyOn(packsService, 'findOne');
+      findPack.mockResolvedValueOnce(null);
+      findPack.mockResolvedValueOnce({
+        code: 1000,
+        name: 'PACK 1',
+        costPrice: 15,
+        salesPrice: 40,
+      });
+      findPack.mockResolvedValueOnce(null);
+      findPack.mockResolvedValueOnce(null);
+      findPack.mockResolvedValueOnce({
+        code: 1001,
+        name: 'PACK 2',
+        costPrice: 15,
+        salesPrice: 50,
+      });
+
+      const validatePackItens = jest.spyOn(packsService, 'validatePackItens');
+      validatePackItens.mockRejectedValueOnce(Error('message'));
+      validatePackItens.mockRejectedValueOnce(Error('message'));
 
       const response = await controller.validateProductCsv(
         'file' as unknown as Express.Multer.File,
       );
 
-      //placeholder
-      expect(response).toEqual(productCsvData);
+      expect(response).toEqual(validatedProducsMock);
+    });
+    it('should throw a badRequestError when csv is invalid', async () => {
+      jest.spyOn(service, 'parseProductCsv').mockResolvedValue(null);
+
+      await expect(
+        controller.validateProductCsv('file' as unknown as Express.Multer.File),
+      ).rejects.toThrow(BadRequestException);
+    });
+  });
+  describe('updatePrices', () => {
+    it('should return a message when update prices', async () => {
+      jest.spyOn(service, 'updatePrices').mockResolvedValue({
+        message: 'Preços atualizados com sucesso',
+      });
+
+      const response = await controller.updatePrices({
+        products: [{ code: 100, newPrice: 21 }],
+      });
+      expect(response).toEqual({ message: 'Preços atualizados com sucesso' });
+    });
+    it('should throw a badRequestError when receive invalid product', async () => {
+      jest.spyOn(service, 'updatePrices').mockResolvedValue(null);
+
+      await expect(
+        controller.updatePrices({
+          products: [{ code: 100, newPrice: 21 }],
+        }),
+      ).rejects.toThrow(BadRequestException);
     });
   });
 });
