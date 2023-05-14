@@ -1,0 +1,50 @@
+version: '3.8'
+name: 'desafio-shopper'
+services:
+
+  db:
+    image: mysql:8.0.21
+    container_name: db
+    platform: linux/x86_64
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    restart: 'always'
+    cap_add:
+      - SYS_NICE 
+    volumes:
+      - ./db:/var/lib/mysql
+
+  server:
+    container_name: shopper-server-dev
+    build: ./server
+    working_dir: /server
+    volumes:
+      - ./server/src:/server/src
+    ports:
+      - ${PORT}:${PORT}
+      - 5555:5555
+    command: npm run start:dev
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      - db
+  
+  # web:
+  #   container_name: shopper-client-dev
+  #   build: ./client
+  #   working_dir: /client
+  #   volumes:
+  #     - ./client/src:/client/src
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - ${WEB_PORT}:${WEB_PORT}
+  #   depends_on:
+  #     - server
+
+volumes:
+  db:
