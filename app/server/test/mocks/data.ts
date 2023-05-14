@@ -112,28 +112,34 @@ export const packProduct: PackProductEntity[] = [
   },
 ];
 
-export const packsWithoutProducts: PackEntity[] = [
+export const packsWithoutProducts: ProductEntity[] = [
+  {
+    code: 1000,
+    name: 'PACK 1',
+    costPrice: new Prisma.Decimal(15),
+    salesPrice: new Prisma.Decimal(40),
+  },
+  {
+    code: 1001,
+    name: 'PACK 2',
+    costPrice: new Prisma.Decimal(85),
+    salesPrice: new Prisma.Decimal(170),
+  },
+];
+
+export const packWithProducts: PackEntity[] = [
   {
     code: 1000,
     name: 'PACK 1',
     costPrice: 15,
     salesPrice: 40,
+    products: [packProduct[0], packProduct[1]],
   },
   {
     code: 1001,
     name: 'PACK 2',
     costPrice: 85,
     salesPrice: 170,
-  },
-];
-
-export const packWithProducts: PackEntity[] = [
-  {
-    ...packsWithoutProducts[0],
-    products: [packProduct[0], packProduct[1]],
-  },
-  {
-    ...packsWithoutProducts[1],
     products: [packProduct[2], packProduct[3]],
   },
 ];

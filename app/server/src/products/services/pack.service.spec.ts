@@ -1,17 +1,25 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { TestingModule, Test } from '@nestjs/testing';
-import { pack, packWithProducts } from '@Test/mocks/data';
+import {
+  pack,
+  packProduct,
+  packsWithoutProducts,
+  packWithProducts,
+} from '@Test/mocks/data';
 
 import { PacksService } from './packs.service';
+import { ProductsService } from './products.service';
 
 describe('PacksService', () => {
   let service: PacksService;
   let prisma: PrismaService;
+  let productsService: ProductsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PacksService,
+        ProductsService,
         {
           provide: PrismaService,
           useValue: {
@@ -27,6 +35,7 @@ describe('PacksService', () => {
 
     service = module.get<PacksService>(PacksService);
     prisma = module.get<PrismaService>(PrismaService);
+    productsService = module.get<ProductsService>(ProductsService);
   });
 
   it('should be defined', () => {
@@ -39,10 +48,19 @@ describe('PacksService', () => {
         .spyOn(prisma.pack, 'findMany')
         .mockResolvedValueOnce([pack[0], pack[1]]);
 
+      jest
+        .spyOn(productsService, 'findOne')
+        .mockResolvedValueOnce(packsWithoutProducts[0]);
+
+      jest
+        .spyOn(service, 'findPackComponents')
+        .mockResolvedValueOnce([packProduct[0], packProduct[1]]);
+
       const result = await service.findOne(1000);
 
       expect(result).toEqual(packWithProducts[0]);
     });
+
     it('should return null when package is not registered', async () => {
       jest.spyOn(prisma.pack, 'findMany').mockResolvedValueOnce([]);
 
