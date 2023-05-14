@@ -1,7 +1,7 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { TestingModule, Test } from '@nestjs/testing';
-import { products, createProduct } from '@Test/mocks/data';
+import { products, createProduct, productCsvData } from '@Test/mocks/data';
 
 import { ProductsService } from '../services/products.service';
 import { ProductsController } from './products.controller';
@@ -69,6 +69,19 @@ describe('ProductsController', () => {
 
       const response = await controller.findAll();
       expect(response).toEqual(products);
+    });
+  });
+
+  describe('validateProductCsv', () => {
+    it('should return a message when csv is valid', async () => {
+      jest.spyOn(service, 'parseProductCsv').mockResolvedValue(productCsvData);
+
+      const response = await controller.validateProductCsv(
+        'file' as unknown as Express.Multer.File,
+      );
+
+      //placeholder
+      expect(response).toEqual(productCsvData);
     });
   });
 });

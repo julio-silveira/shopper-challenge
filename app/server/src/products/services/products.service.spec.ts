@@ -1,6 +1,12 @@
 import { PrismaService } from '@/prisma/prisma.service';
+import * as csv from '@/utils/csv.parser';
 import { TestingModule, Test } from '@nestjs/testing';
-import { products, createProduct } from '@Test/mocks/data';
+import {
+  products,
+  createProduct,
+  parsedCsvData,
+  productCsvData,
+} from '@Test/mocks/data';
 
 import { ProductsService } from './products.service';
 
@@ -64,6 +70,73 @@ describe('ProductsService', () => {
 
       const response = await service.findAll();
       expect(response).toEqual(products);
+    });
+  });
+
+  describe('parseProductCsv', () => {
+    it('should return a parsed array', async () => {
+      jest.spyOn(csv, 'csvParser').mockResolvedValue(parsedCsvData);
+
+      const response = await service.parseProductCsv('path');
+      expect(response).toEqual(productCsvData);
+    });
+  });
+
+  describe('validatePrice', () => {
+    it('should return an array with codes and new prices', async () => {
+      const response = await service.validatePrice(90, 91, 92);
+      expect(response).toEqual([]);
+    });
+
+    it('should return an array with error messages', async () => {
+      const response = await service.validatePrice(90, 91, 88);
+      expect(response).toEqual([
+        'O novo preço não pode ser menor que o preço de custo',
+      ]);
+    });
+
+    it('should return an array with error messages', async () => {
+      const response = await service.validatePrice(1, 10, 5);
+      expect(response).toEqual([
+        'A variação de preço não pode ser superior à 10%.',
+      ]);
+    });
+  });
+
+  describe('validateProduct', () => {
+    it('should return an array with error messages', async () => {
+      jest.spyOn(service, 'findOne').mockResolvedValue(product);
+
+      const response = await service.validateProduct(1, 9);
+      expect(response.message).toContain(
+        'O novo preço não pode ser menor que o preço de custo',
+      );
+    });
+    it('should return an array with error messages', async () => {
+      jest.spyOn(service, 'findOne').mockResolvedValue(product);
+
+      const response = await service.validateProduct(1, 22);
+      expect(response.message).toContain(
+        'A variação de preço não pode ser superior à 10%.',
+      );
+    });
+    it('should return an array with error messages', async () => {
+      jest.spyOn(service, 'findOne').mockResolvedValue(null);
+
+      const response = await service.validateProduct(1, 22);
+      expect(response.message).toContain('Produto não encontrado');
+    });
+    it('should return a object with product data', async () => {
+      jest.spyOn(service, 'findOne').mockResolvedValue(product);
+
+      const response = await service.validateProduct(1, 20);
+      expect(response).toEqual({
+        code: 1,
+        currentPrice: 20,
+        name: 'SODA',
+        newPrice: 20,
+        valid: true,
+      });
     });
   });
 });

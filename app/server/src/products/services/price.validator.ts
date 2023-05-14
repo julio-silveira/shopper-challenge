@@ -24,7 +24,7 @@ export class PriceValidator {
 
   validatePriceVariation(): boolean {
     const isInPriceRange =
-      this.priceDifferencePercentage <= this.maxPriceDifferencePercentage;
+      this.priceDifferencePercentage >= this.maxPriceDifferencePercentage;
 
     return isInPriceRange;
   }

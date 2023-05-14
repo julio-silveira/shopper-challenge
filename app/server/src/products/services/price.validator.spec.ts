@@ -14,7 +14,7 @@ const pricesMock: PriceValidatorConstructorParams[] = [
   },
   {
     currentPrice: 10,
-    newPrice: 15,
+    newPrice: 9.5,
     costPrice: 5,
   },
   {

@@ -1,3 +1,4 @@
+import { PriceUpdateInteface } from '@/products/interfaces/price-update.interface';
 import { Prisma } from '@prisma/client';
 import { CreateProductDto } from 'src/products/dto/create-product.dto';
 import { ProductEntity } from 'src/products/entities/product.entity';
@@ -34,4 +35,10 @@ export const parsedCsvData = [
   ['16', '25.50'],
   ['18', '30'],
   ['19', '20'],
+];
+
+export const productCsvData: PriceUpdateInteface[] = [
+  { code: 16, newPrice: 25.5 },
+  { code: 18, newPrice: 30 },
+  { code: 19, newPrice: 20 },
 ];

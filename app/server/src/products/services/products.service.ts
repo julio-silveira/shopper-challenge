@@ -6,6 +6,7 @@ import { Product } from '@prisma/client';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { UpdatePriceEntity } from '../entities/update-price.entity';
+import { PriceUpdateInteface } from '../interfaces/price-update.interface';
 import { PriceValidator } from './price.validator';
 
 @Injectable()
@@ -28,15 +29,15 @@ export class ProductsService {
     return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
+  // update(id: number, updateProductDto: UpdateProductDto) {
+  //   return `This action updates a #${id} product`;
+  // }
 
-  async parseProductCsv(filePath: string) {
+  async parseProductCsv(filePath: string): Promise<PriceUpdateInteface[]> {
     const csvData = await csvParser(filePath);
 
     const mappedCsvData = csvData.map((row) => {
-      return { productId: +row[0], newPrice: +row[1] };
+      return { code: +row[0], newPrice: +row[1] };
     });
 
     return mappedCsvData;
