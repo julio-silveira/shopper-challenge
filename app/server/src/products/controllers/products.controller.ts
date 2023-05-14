@@ -69,6 +69,11 @@ export class ProductsController {
   async validateProductCsv(@UploadedFile() file: Express.Multer.File) {
     const parsedCsvFile = await this.productsService.parseProductCsv(file.path);
 
-    return parsedCsvFile;
+    const validatedProducts = Promise.all(
+      parsedCsvFile.map(async ({ code, newPrice }) => {
+        return await this.productsService.validateProduct(code, newPrice);
+      }),
+    );
+    return validatedProducts;
   }
 }
