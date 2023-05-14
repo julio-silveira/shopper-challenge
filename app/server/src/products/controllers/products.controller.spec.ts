@@ -6,7 +6,6 @@ import {
   createProduct,
   productCsvData,
   productUpdateMock,
-  packsWithoutProducts,
   validatedProducsMock,
 } from '@Test/mocks/data';
 

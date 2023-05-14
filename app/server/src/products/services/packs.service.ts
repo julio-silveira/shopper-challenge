@@ -1,5 +1,9 @@
 import { PrismaService } from '@/prisma/prisma.service';
-import { roundFloat } from '@/utils/roundFloat';
+import {
+  checkPackContent,
+  reducePackPrice,
+  reducePriceList,
+} from '@/utils/pack.helpers';
 import { Injectable } from '@nestjs/common';
 import { Pack } from '@prisma/client';
 
@@ -79,24 +83,24 @@ export class PacksService {
     pack: PackEntity,
     priceUpdateList: PriceUpdateInteface[],
   ) {
-    await this.validateContent(pack, priceUpdateList);
+    try {
+      await this.validateContent(pack, priceUpdateList);
 
-    await this.validateNewPackPrice(pack, priceUpdateList);
+      await this.validateNewPackPrice(pack, priceUpdateList);
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 
   async validateContent(
     pack: PackEntity,
     priceUpdateList: PriceUpdateInteface[],
   ) {
-    const containsAllProducts = pack.products.every(
-      (product) =>
-        product.code === pack.code ||
-        priceUpdateList.some((item) => item.code === product.code),
-    );
+    const containsAllProducts = checkPackContent(pack, priceUpdateList);
 
     if (!containsAllProducts) {
       throw new Error(
-        'A solicitação contém o novo preço de todos produtos do pacote',
+        'A solicitação não contém o novo preço de todos produtos do pacote',
       );
     }
   }
@@ -105,29 +109,11 @@ export class PacksService {
     pack: PackEntity,
     priceUpdateList: PriceUpdateInteface[],
   ) {
-    const newPack = priceUpdateList.reduce(
-      (acc, curr) => {
-        if (curr.code === pack.code) {
-          return { ...acc, pack: curr };
-        }
-        const currentProduct = pack.products.find((p) => p.code === curr.code);
-        if (currentProduct) {
-          return {
-            ...acc,
-            products: [...acc?.products, { ...curr, qty: currentProduct.qty }],
-          };
-        }
-        return acc;
-      },
-      { pack: null, products: [] },
-    );
+    const newPack = reducePriceList(pack, priceUpdateList);
 
-    const sumNewProductsPrice = newPack.products.reduce(
-      (acc, curr) => acc + curr.qty * curr.newPrice,
-      0,
-    );
+    const sumNewProductsPrice = reducePackPrice(newPack);
 
-    if (newPack.pack.newPrice !== roundFloat(sumNewProductsPrice)) {
+    if (newPack.pack.newPrice !== sumNewProductsPrice) {
       throw new Error(
         'O preço do pacote deve ser igual a soma do preço dos produtos',
       );

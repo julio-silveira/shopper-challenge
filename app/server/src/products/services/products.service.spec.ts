@@ -16,7 +16,6 @@ import { ProductsService } from './products.service';
 describe('ProductsService', () => {
   let service: ProductsService;
   let prisma: PrismaService;
-  let packsService: PacksService;
 
   const product = products[0];
 
@@ -42,7 +41,6 @@ describe('ProductsService', () => {
 
     service = module.get<ProductsService>(ProductsService);
     prisma = module.get<PrismaService>(PrismaService);
-    packsService = module.get<PacksService>(PacksService);
   });
 
   it('should be defined', () => {
