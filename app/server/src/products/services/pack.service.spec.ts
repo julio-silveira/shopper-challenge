@@ -5,6 +5,7 @@ import {
   packProduct,
   packsWithoutProducts,
   packWithProducts,
+  products,
 } from '@Test/mocks/data';
 
 import { PacksService } from './packs.service';
@@ -85,6 +86,40 @@ describe('PacksService', () => {
       const result = await service.findAll();
 
       expect(result).toEqual([]);
+    });
+  });
+
+  describe('findPacks', () => {
+    it('should return a list of packs', async () => {
+      const findOne = jest.spyOn(service, 'findOne');
+      findOne.mockResolvedValueOnce(packWithProducts[0]);
+      findOne.mockResolvedValueOnce(packWithProducts[1]);
+
+      const result = await service.findPacks([1000, 10001]);
+
+      expect(result).toEqual(packWithProducts);
+    });
+  });
+
+  describe('findPackComponents', () => {
+    it('should return a list of pack components', async () => {
+      const findComponentAndMap = jest.spyOn(service, 'findComponentAndMap');
+      findComponentAndMap.mockResolvedValueOnce(packProduct[0]);
+      findComponentAndMap.mockResolvedValueOnce(packProduct[1]);
+
+      const result = await service.findPackComponents([pack[0], pack[1]]);
+
+      expect(result).toEqual([packProduct[0], packProduct[1]]);
+    });
+  });
+
+  describe('findComponentAndMap', () => {
+    it('should return a pack component', async () => {
+      jest.spyOn(productsService, 'findOne').mockResolvedValueOnce(products[0]);
+
+      const result = await service.findComponentAndMap(pack[0]);
+
+      expect(result).toEqual(packProduct[0]);
     });
   });
 });

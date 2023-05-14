@@ -48,9 +48,11 @@ export class PacksService {
   }
 
   async findPackComponents(pack: Pack[]): Promise<PackProductEntity[]> {
-    return await Promise.all(
+    const products = await Promise.all(
       pack.map(async (p) => await this.findComponentAndMap(p)),
     );
+
+    return products;
   }
 
   async findComponentAndMap(
@@ -58,13 +60,16 @@ export class PacksService {
   ): Promise<PackProductEntity> {
     const product = await this.productService.findOne(pack.productId);
 
-    return {
+    const packProduct = {
       packItemId: pack.id,
+      packId: pack.packId,
       code: product.code,
       name: product.name,
       costPrice: product.costPrice.toNumber(),
       salesPrice: product.salesPrice.toNumber(),
       qty: pack.qty,
     };
+
+    return packProduct;
   }
 }
