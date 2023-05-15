@@ -36,7 +36,7 @@ Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preç
 
 6. A api pode ser acessada também utilizando o localhost na porta escolhida na váriavel de ambiente PORT, por padrão <link>http://localhost:3000/</link>, já a documentação da api(swagger) pode ser acessada na rota **/api**:    <link>http://localhost:3000/api</link>.
 
-7. Na raiz da aplicação existem dois arquivos .csv, um que pode ser utilizado para atualizar produtos com sucesso (rightprices.csv) e outro que propositalmente gera alguns erros para simplificar a testagem da aplicação (wrongprices.csv)
+7. Na pasta /data existem dois arquivos .csv, um que pode ser utilizado para atualizar produtos com sucesso (rightprices.csv) e outro que propositalmente gera alguns erros para simplificar a testagem da aplicação (wrongprices.csv)
 
 ## Aplicação
 
