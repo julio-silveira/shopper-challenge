@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
 import { TableCell, TableHead, TableRow, useTheme } from '@mui/material'
+import React, { useMemo } from 'react'
 
 type Props = {
   columns: string[]
@@ -19,12 +19,11 @@ export default function TableHeader({ columns }: Props) {
   return (
     <TableHead>
       <TableRow>
-        {columns.map((column) =>
-            <TableCell sx={headerSyles} key={column}>
-              {column}
-            </TableCell>
-        )}
-
+        {columns.map((column) => (
+          <TableCell sx={headerSyles} key={column}>
+            {column}
+          </TableCell>
+        ))}
       </TableRow>
     </TableHead>
   )

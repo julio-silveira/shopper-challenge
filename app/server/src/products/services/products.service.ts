@@ -78,7 +78,7 @@ export class ProductsService {
       typeof newPrice === 'number' ? newPrice : parseFloat(newPrice);
 
     if (isNaN(parsedNewPrice)) {
-      errorMessageBuffer.push('O novo preço deve ser um número');
+      errorMessageBuffer.push('O novo preço deve ser um número.');
       return errorMessageBuffer;
     }
 
@@ -90,7 +90,7 @@ export class ProductsService {
 
     if (newPriceValidator.validateFloorPrice()) {
       errorMessageBuffer.push(
-        'O novo preço não pode ser menor que o preço de custo',
+        'O novo preço não pode ser menor que o preço de custo.',
       );
     }
 
@@ -112,7 +112,7 @@ export class ProductsService {
     if (!product) {
       return {
         code: code,
-        message: ['Produto não encontrado'],
+        message: ['Produto não encontrado.'],
         valid: false,
       };
     }

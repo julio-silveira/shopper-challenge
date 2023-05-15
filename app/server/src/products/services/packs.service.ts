@@ -100,7 +100,7 @@ export class PacksService {
 
     if (!containsAllProducts) {
       throw new Error(
-        'A solicitação não contém o novo preço de todos produtos do pacote',
+        'A solicitação não contém o novo preço de todos produtos do pacote.',
       );
     }
   }
@@ -115,7 +115,7 @@ export class PacksService {
 
     if (newPack.pack.newPrice !== sumNewProductsPrice) {
       throw new Error(
-        'O preço do pacote deve ser igual a soma do preço dos produtos',
+        'O preço do pacote deve ser igual a soma do preço dos produtos.',
       );
     }
   }

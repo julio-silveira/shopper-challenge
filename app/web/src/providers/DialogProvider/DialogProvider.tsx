@@ -1,7 +1,6 @@
-import React, { ReactNode, useState } from 'react'
 import { DialogContext } from '@/context'
 import { DialogType } from '@/types/DialogType'
-
+import React, { ReactNode, useState } from 'react'
 
 interface ProviderProps {
   children: ReactNode
@@ -11,7 +10,6 @@ export function DialogProvider({ children }: ProviderProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [dialogType, setDialogType] = useState<DialogType>('updateProduct')
   const [validating, setValidating] = useState(false)
-
 
   const handleOpenDialog = (form: DialogType) => {
     setDialogType(form)
@@ -23,7 +21,6 @@ export function DialogProvider({ children }: ProviderProps) {
     setIsOpen(false)
   }
 
-
   return (
     <DialogContext.Provider
       value={{
@@ -32,7 +29,7 @@ export function DialogProvider({ children }: ProviderProps) {
         validating,
         handleOpenDialog,
         handleCloseDialog,
-        setValidating,
+        setValidating
       }}
     >
       {children}

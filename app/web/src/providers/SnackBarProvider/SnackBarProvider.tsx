@@ -1,8 +1,7 @@
-import React, { ReactNode, useState } from 'react'
 import { SnackBarContext } from '@/context'
 import { SnackBar } from '@/context/SnackBarContext/SnackBarContext'
 import { AlertColor } from '@mui/material'
-
+import React, { ReactNode, useState } from 'react'
 
 interface ProviderProps {
   children: ReactNode
@@ -12,7 +11,6 @@ export function SnackBarProvider({ children }: ProviderProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState('')
   const [color, setColor] = useState<AlertColor>('success')
-
 
   const handleOpenSnackBar = ({ message, color = 'error' }: SnackBar) => {
     setColor(color)
