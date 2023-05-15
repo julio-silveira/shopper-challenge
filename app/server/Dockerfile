@@ -8,8 +8,4 @@ RUN npm install
 
 COPY . .
 
-ARG PORT
-
-RUN npx prisma generate 
-
-CMD ["npm", "start"]
+CMD ["npm","run", "start:prisma"]

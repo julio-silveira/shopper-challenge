@@ -39,20 +39,24 @@ export default function ProductItem({ product }: Props) {
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography variant="body2">{product.name}</Typography>
+        {product.name ? (
+          <Typography variant="body2">{product.name}</Typography>
+        ) : null}
 
-        <Stack
-          sx={{ width: '100%' }}
-          direction="row"
-          justifyContent="space-evenly"
-        >
-          <Typography mt={1} variant="body2">
-            {`Preço atual: ${toBrl(product?.currentPrice)}`}
-          </Typography>
-          <Typography mt={1} variant="body2">
-            {`Novo preço: ${toBrl(product?.newPrice)}`}
-          </Typography>
-        </Stack>
+        {product.newPrice ? (
+          <Stack
+            sx={{ width: '100%' }}
+            direction="row"
+            justifyContent="space-evenly"
+          >
+            <Typography mt={1} variant="body2">
+              {`Preço atual: ${toBrl(product?.currentPrice)}`}
+            </Typography>
+            <Typography mt={1} variant="body2">
+              {`Novo preço: ${toBrl(product?.newPrice)}`}
+            </Typography>
+          </Stack>
+        ) : null}
 
         {product?.valid ? null : (
           <>

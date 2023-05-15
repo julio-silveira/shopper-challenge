@@ -103,13 +103,13 @@ describe('ProductsService', () => {
     it('should return an array with error messages', async () => {
       const response = await service.validatePrice(90, 91, 88);
       expect(response).toEqual([
-        'O novo preço não pode ser menor que o preço de custo',
+        'O novo preço não pode ser menor que o preço de custo.',
       ]);
     });
 
     it('should return an array with error messages', async () => {
       const response = await service.validatePrice(90, 91, 'aaa100a');
-      expect(response).toEqual(['O novo preço deve ser um número']);
+      expect(response).toEqual(['O novo preço deve ser um número.']);
     });
 
     it('should return an array with error messages', async () => {
@@ -126,7 +126,7 @@ describe('ProductsService', () => {
 
       const response = await service.validateProduct(1, 9);
       expect(response.message).toContain(
-        'O novo preço não pode ser menor que o preço de custo',
+        'O novo preço não pode ser menor que o preço de custo.',
       );
     });
     it('should return an array with error messages', async () => {
@@ -141,7 +141,7 @@ describe('ProductsService', () => {
       jest.spyOn(service, 'findOne').mockResolvedValue(null);
 
       const response = await service.validateProduct(1, 22);
-      expect(response.message).toContain('Produto não encontrado');
+      expect(response.message).toContain('Produto não encontrado.');
     });
     it('should return a object with product data', async () => {
       jest.spyOn(service, 'findOne').mockResolvedValue(product);

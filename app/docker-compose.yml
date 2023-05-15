@@ -10,40 +10,43 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
     restart: 'always'
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
     cap_add:
-      - SYS_NICE
-    volumes:
-      - ./db:/var/lib/mysql
+    - SYS_NICE
 
   server:
-    container_name: shopper-server-dev
+    container_name: shopper-server
     build: ./server
     working_dir: /server
-    volumes:
-      - ./server/src:/server/src
     ports:
       - ${PORT}:${PORT}
-      - 5555:5555
-    command: npm run start:dev
     env_file:
       - .env
     environment:
       DATABASE_URL: ${DATABASE_URL}
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:${PORT}"]
+      timeout: 10s
+      retries: 5
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   web:
-    container_name: shopper-client-dev
+    container_name: shopper-client
     build: ./web
     working_dir: /web
-    volumes:
-      - ./web/src:/web/src
     env_file:
       - .env
     ports:
       - ${WEB_PORT}:${WEB_PORT}
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:${WEB_PORT}"] 
+      timeout: 10s
+      retries: 5
     depends_on:
-      - server
-
-volumes:
-  db:
+        server:
+          condition: service_healthy
