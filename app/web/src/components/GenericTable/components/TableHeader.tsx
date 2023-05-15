@@ -3,10 +3,9 @@ import { TableCell, TableHead, TableRow, useTheme } from '@mui/material'
 
 type Props = {
   columns: string[]
-  manage?: boolean
 }
 
-export default function TableHeader({ columns, manage }: Props) {
+export default function TableHeader({ columns }: Props) {
   const { palette } = useTheme()
 
   const headerSyles = useMemo(
@@ -25,7 +24,7 @@ export default function TableHeader({ columns, manage }: Props) {
               {column}
             </TableCell>
         )}
-        
+
       </TableRow>
     </TableHead>
   )

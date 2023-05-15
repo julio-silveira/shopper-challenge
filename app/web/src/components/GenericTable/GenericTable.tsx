@@ -10,7 +10,7 @@ import {
 import { Box } from '@mui/system'
 import { GenericObject } from '@/types/GenericObject'
 import { Loading } from '../Loading'
-import TableHeader from './components/TableHeade'
+import TableHeader from './components/TableHeader'
 import TableRowSet from './components/TableRowSet'
 
 type Props = {
@@ -45,7 +45,7 @@ function GenericTable({ loading, dataList, columnList }: Props) {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - count) : 0
 
   return (
-    <TableContainer component={Paper} elevation={5} sx={{ p: 1, mb: 4 }}>
+    <TableContainer component={Paper} elevation={5} sx={{ mb: 4 }}>
       <Table size="small" stickyHeader sx={{ minWidth: 300 }}>
         <TableHeader columns={columns} />
         <TableRowSet
