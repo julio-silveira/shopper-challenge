@@ -108,6 +108,11 @@ describe('ProductsService', () => {
     });
 
     it('should return an array with error messages', async () => {
+      const response = await service.validatePrice(90, 91, 'aaa100a');
+      expect(response).toEqual(['O novo preço deve ser um número']);
+    });
+
+    it('should return an array with error messages', async () => {
       const response = await service.validatePrice(1, 10, 5);
       expect(response).toEqual([
         'A variação de preço não pode ser superior à 10%.',
