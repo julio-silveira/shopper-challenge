@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import { products } from './seedData/products';
+
 import { packs } from './seedData/packs';
+import { products } from './seedData/products';
 const prisma = new PrismaClient();
 
 async function main() {
