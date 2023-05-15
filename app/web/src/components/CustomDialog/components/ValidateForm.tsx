@@ -20,6 +20,7 @@ import { LoadingButton } from '@/components/LoadingButton'
 import { MuiFileInput } from 'mui-file-input'
 import ProductList from '@/components/ProductList/ProductList'
 import { UpdatePriceEntity } from '@/types/UpdateProductPrice'
+import { UpdatePriceDto } from '@/types/UpdatePriceDto'
 
 
 export default function ValidateForm() {
@@ -33,30 +34,47 @@ export default function ValidateForm() {
     setValue(newValue)
   }
 
-  const handleMutation = async (value: FormData) =>
-    await api.post('/products/validate', value)
+  const handleMutation = async (data: FormData | UpdatePriceDto) =>
+   validating ? await api.put('/products/prices',data) : await api.post('/products/validate', data)
 
-  const { isLoading, mutate } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: handleMutation,
     onError: (err) => {
       const e = err as AxiosError
       handleOpenSnackBar({ message: e?.message })
     },
     onSuccess: (response) => {
+      if(validating) {
+        handleCloseDialog()
+        handleOpenSnackBar({ message: 'Preços atualizados com sucesso!', color: "success" })
+        queryClient.invalidateQueries(['products'])
+      }else {
       const data = response.data
       setValidating(true)
       console.log(data);
       setValidationData(data)
+      }
     }
   })
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const data = new FormData()
-    data.append('file', value as File)
-    mutate(data)
+    let body: FormData | UpdatePriceDto
+
+    if (validating) {
+      const mappedProducts = validationData.map((product) => ({code: product.code, newPrice: product.newPrice}))
+      body = {products: mappedProducts}
+    } else {
+      body =  new FormData()
+      body.append('file', value as File)
+    }
+    mutate(body)
   }
 
+  const isReady = () => {
+    if(!validating) return false
+    return !validationData.every((product) => product.valid)
+  }
 
   return (
     <Box
@@ -81,17 +99,23 @@ export default function ValidateForm() {
         )}
         </Stack>
       </DialogContent>
+      {!isReady() ? null : (
+        <DialogContentText mt={1} color="error" variant='body2'>
+          Não é possível atualizar, verifique os erros.
+        </DialogContentText>)}
 
       <DialogActions>
         <Button onClick={handleCloseDialog} variant="outlined">
           Cancelar
         </Button>
 
-        <LoadingButton
+        <Button
+          variant='contained'
+          disabled={isReady()}
           type="submit"
-          content="Validar"
-          loading={isLoading}
-        />
+        >
+          {validating ? 'Atualizar' : 'Validar'}
+        </Button>
       </DialogActions>
     </Box>
   )

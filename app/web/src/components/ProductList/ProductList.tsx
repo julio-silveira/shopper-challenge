@@ -8,7 +8,9 @@ type Props = {
 export default function ProductList({products}: Props) {
   return (
     <div>
-      {products.map((product) => (<ProductItem product={product} />))}
+      {products.map((product, index) => (
+        <ProductItem key={`${product.name}${index}`} product={product} />
+      ))}
     </div>
   )
 }

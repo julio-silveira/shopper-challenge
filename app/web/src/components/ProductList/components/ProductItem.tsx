@@ -22,7 +22,7 @@ export default function ProductItem({ product }: Props) {
         >
           <Stack sx={{width: "100%"}} direction="row" justifyContent="space-between">
           <Typography ml={1}>{`Produto ${product.code}`}</Typography>
-          <Typography mr={1} >{product.valid? <CheckCircleOutlineIcon color="success" /> :<ErrorOutlineIcon color="error" />}</Typography>
+          {product.valid? <CheckCircleOutlineIcon color="success" /> :<ErrorOutlineIcon color="error" />}
           </Stack>
         </AccordionSummary>
         <AccordionDetails>
