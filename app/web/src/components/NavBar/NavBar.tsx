@@ -8,17 +8,14 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CustomDrawer from './components/Drawer';
 import { useTheme } from '@mui/material';
+import logo from '@/assets/logo.svg'
 
-interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-}
+
+
 
 const navItems = ['Produtos'];
 
-export default function NavBar(props: Props) {
+export default function NavBar() {
   const theme =useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -40,14 +37,9 @@ export default function NavBar(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            color="primary"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            SHOPPER
-          </Typography>
+          <Box mr={4} component="img" src={logo}   sx={{  display: { xs: 'none', sm: 'block' }, width: '150px' }}/>
+
+
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
               <Button key={item} >
@@ -58,12 +50,12 @@ export default function NavBar(props: Props) {
         </Toolbar>
       </AppBar>
       <Box component="nav">
-            <CustomDrawer 
-              mobileOpen={mobileOpen} 
-              handleDrawerToggle={handleDrawerToggle} 
-              navItems={navItems} /> 
+            <CustomDrawer
+              mobileOpen={mobileOpen}
+              handleDrawerToggle={handleDrawerToggle}
+              navItems={navItems} />
       </Box>
-     
+
     </Box>
   );
 }

@@ -9,18 +9,17 @@ import {
   DialogTitle,
   FormControl,
   FormHelperText,
+  FormLabel,
   Stack,
   Typography
 } from '@mui/material'
-import { SubmitHandler, useForm } from 'react-hook-form'
 import { useDialog, useSnackBar } from '@/hooks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { LoadingButton } from '@/components/LoadingButton'
 import { MuiFileInput } from 'mui-file-input'
-import ProductList from '@/components/ProductList/ProductList'
 import { UpdatePriceEntity } from '@/types/UpdateProductPrice'
 import { UpdatePriceDto } from '@/types/UpdatePriceDto'
+import ProductList from '@/components/ProductList/ProductList'
 
 
 export default function ValidateForm() {
@@ -84,25 +83,35 @@ export default function ValidateForm() {
       sx={{textAlign: 'center'}}
       onSubmit={handleSubmit}
     >
-      <DialogTitle>Atualizar preços</DialogTitle>
+      <DialogTitle fontWeight="bold">Atualizar preços</DialogTitle>
       <DialogContent dividers>
         <Stack spacing={2}>
-          {validating ? <ProductList products={validationData} />: ( <FormControl>
-          <MuiFileInput
-            inputProps={{accept:".csv"}}
-            size='small'
-            value={value}
-            onChange={handleChange}
-          />
-          <FormHelperText>Escolha o arquivo .csv</FormHelperText>
-          </FormControl>
-        )}
+            {validating
+              ? <ProductList products={validationData} />
+              : (
+                <FormControl>
+                  <FormLabel>Clique no campo abaixo e escolha o arquivo</FormLabel>
+                  <MuiFileInput
+                    color="primary"
+                    inputProps={{accept:".csv"}}
+                    size='small'
+                    value={value}
+                    onChange={handleChange}
+                  />
+                  <FormHelperText>Formato permitido: .csv</FormHelperText>
+                </FormControl>
+                 )
+              }
         </Stack>
       </DialogContent>
-      {!isReady() ? null : (
-        <DialogContentText mt={1} color="error" variant='body2'>
-          Não é possível atualizar, verifique os erros.
-        </DialogContentText>)}
+      {!isReady()
+        ? null
+        : (
+            <DialogContentText mt={1} color="error" variant='body2'>
+              Não é possível atualizar, verifique os erros.
+            </DialogContentText>
+          )
+      }
 
       <DialogActions>
         <Button onClick={handleCloseDialog} variant="outlined">

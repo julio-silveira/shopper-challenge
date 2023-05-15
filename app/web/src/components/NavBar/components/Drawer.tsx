@@ -1,4 +1,6 @@
+import React from 'react'
 import { Box, Typography, Divider, List, ListItem, ListItemButton, ListItemText, Drawer } from '@mui/material'
+import logo from '@/assets/logo.svg'
 
 type Props = {
   mobileOpen: boolean
@@ -28,9 +30,8 @@ export default function CustomDrawer({handleDrawerToggle, navItems, window, mobi
   }}
 >
 <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography color="primary" variant="h6" sx={{ my: 2 }}>
-        Shopper
-      </Typography>
+      <Box component="img" src={logo}  sx={{ my: 2, width: '150px' }}/>
+
       <Divider />
       <List>
         {navItems.map((item) => (
@@ -43,6 +44,6 @@ export default function CustomDrawer({handleDrawerToggle, navItems, window, mobi
       </List>
     </Box>
 </Drawer>
-  
+
     )
 }
