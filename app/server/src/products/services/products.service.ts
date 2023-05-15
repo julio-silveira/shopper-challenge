@@ -69,6 +69,12 @@ export class ProductsService {
 
   async validatePrice(costPrice: number, salesPrice: number, newPrice: number) {
     const errorMessageBuffer: string[] = [];
+    const parsedNewPrice = parseFloat(newPrice.toFixed(2));
+
+    if (isNaN(parsedNewPrice)) {
+      errorMessageBuffer.push('O novo preço deve ser um número');
+      return errorMessageBuffer;
+    }
 
     const newPriceValidator = new PriceValidator({
       costPrice: costPrice,
