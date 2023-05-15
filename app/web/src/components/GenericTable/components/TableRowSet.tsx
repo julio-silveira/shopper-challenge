@@ -19,8 +19,8 @@ export default function TableRowSet({
   return (
     <TableBody>
       {dataList
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((e, i) => (
+        ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        ?.map((e, i) => (
           <TableRow key={i}>
             {Object.entries(e).map(([key, value], index) =>
               key.includes('Price')

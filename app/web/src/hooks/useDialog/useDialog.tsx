@@ -2,7 +2,7 @@ import { DialogContext } from '@/context';
 import { useContext } from 'react';
 
 export default function useDialog() {
-  const {isOpen, dialogType, handleCloseDialog, handleOpenDialog} = useContext(DialogContext)
+  const {isOpen, dialogType, validating, handleCloseDialog, handleOpenDialog, setValidating} = useContext(DialogContext)
 
-  return {isOpen, dialogType , handleCloseDialog, handleOpenDialog}
+  return {isOpen, dialogType,validating , handleCloseDialog, handleOpenDialog, setValidating}
 }

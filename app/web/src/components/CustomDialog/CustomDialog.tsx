@@ -8,7 +8,7 @@ function CustomDialog() {
 
   return (
     <Dialog
-      sx={{ minWidth: '400px' }}
+      sx={{ minWidth: '200px' }}
       open={isOpen}
       onClose={handleCloseDialog}
     >

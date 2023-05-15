@@ -1,1 +1,1 @@
-export type DialogType = 'createProduct' | 'updateProduct' | 'confirmation'
+export type DialogType = 'createProduct' | 'updateProduct'

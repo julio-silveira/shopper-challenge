@@ -10,6 +10,8 @@ interface ProviderProps {
 export function DialogProvider({ children }: ProviderProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [dialogType, setDialogType] = useState<DialogType>('updateProduct')
+  const [validating, setValidating] = useState(false)
+
 
   const handleOpenDialog = (form: DialogType) => {
     setDialogType(form)
@@ -17,6 +19,7 @@ export function DialogProvider({ children }: ProviderProps) {
     setIsOpen(true)
   }
   const handleCloseDialog = () => {
+    setValidating(false)
     setIsOpen(false)
   }
 
@@ -26,8 +29,10 @@ export function DialogProvider({ children }: ProviderProps) {
       value={{
         isOpen,
         dialogType,
+        validating,
         handleOpenDialog,
         handleCloseDialog,
+        setValidating,
       }}
     >
       {children}
