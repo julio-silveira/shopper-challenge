@@ -1,8 +1,22 @@
-import { DialogContext } from '@/context';
-import { useContext } from 'react';
+import { DialogContext } from '@/context'
+import { useContext } from 'react'
 
 export default function useDialog() {
-  const {isOpen, dialogType, validating, handleCloseDialog, handleOpenDialog, setValidating} = useContext(DialogContext)
+  const {
+    isOpen,
+    dialogType,
+    validating,
+    handleCloseDialog,
+    handleOpenDialog,
+    setValidating
+  } = useContext(DialogContext)
 
-  return {isOpen, dialogType,validating , handleCloseDialog, handleOpenDialog, setValidating}
+  return {
+    isOpen,
+    dialogType,
+    validating,
+    handleCloseDialog,
+    handleOpenDialog,
+    setValidating
+  }
 }

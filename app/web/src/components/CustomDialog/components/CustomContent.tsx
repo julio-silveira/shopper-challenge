@@ -1,7 +1,8 @@
-import React from 'react'
 import { useDialog } from '@/hooks'
-import ValidateForm from './ValidateForm'
+import { Typography } from '@mui/material'
+import React from 'react'
 
+import ValidateForm from './ValidateForm'
 
 export default function CustomContent() {
   const { dialogType } = useDialog()
@@ -9,7 +10,7 @@ export default function CustomContent() {
     case 'updateProduct':
       return <ValidateForm />
     case 'createProduct':
-      return <p> create product </p>
+      return <Typography p={4}>Not Implemented</Typography>
     default:
       return null
   }

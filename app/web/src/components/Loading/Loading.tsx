@@ -1,6 +1,6 @@
-import React from 'react'
-import { CircularProgress } from '@mui/material'
 import MainContainer from '@/styles/MainContainer'
+import { CircularProgress } from '@mui/material'
+import React from 'react'
 
 type Props = {
   color?:

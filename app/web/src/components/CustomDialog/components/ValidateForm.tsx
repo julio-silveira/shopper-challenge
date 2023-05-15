@@ -1,5 +1,8 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import ProductList from '@/components/ProductList/ProductList'
+import { useDialog, useSnackBar } from '@/hooks'
 import api from '@/services/api'
+import { UpdatePriceDto } from '@/types/UpdatePriceDto'
+import { UpdatePriceEntity } from '@/types/UpdateProductPrice'
 import {
   Box,
   Button,
@@ -10,17 +13,12 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  Stack,
-  Typography
+  Stack
 } from '@mui/material'
-import { useDialog, useSnackBar } from '@/hooks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { MuiFileInput } from 'mui-file-input'
-import { UpdatePriceEntity } from '@/types/UpdateProductPrice'
-import { UpdatePriceDto } from '@/types/UpdatePriceDto'
-import ProductList from '@/components/ProductList/ProductList'
-
+import React, { FormEvent, useState } from 'react'
 
 export default function ValidateForm() {
   const queryClient = useQueryClient()
@@ -34,7 +32,9 @@ export default function ValidateForm() {
   }
 
   const handleMutation = async (data: FormData | UpdatePriceDto) =>
-   validating ? await api.put('/products/prices',data) : await api.post('/products/validate', data)
+    validating
+      ? await api.put('/products/prices', data)
+      : await api.post('/products/validate', data)
 
   const { mutate } = useMutation({
     mutationFn: handleMutation,
@@ -43,15 +43,18 @@ export default function ValidateForm() {
       handleOpenSnackBar({ message: e?.message })
     },
     onSuccess: (response) => {
-      if(validating) {
+      if (validating) {
         handleCloseDialog()
-        handleOpenSnackBar({ message: 'Preços atualizados com sucesso!', color: "success" })
+        handleOpenSnackBar({
+          message: 'Preços atualizados com sucesso!',
+          color: 'success'
+        })
         queryClient.invalidateQueries(['products'])
-      }else {
-      const data = response.data
-      setValidating(true)
-      console.log(data);
-      setValidationData(data)
+      } else {
+        const data = response.data
+        setValidating(true)
+        console.log(data)
+        setValidationData(data)
       }
     }
   })
@@ -61,68 +64,63 @@ export default function ValidateForm() {
     let body: FormData | UpdatePriceDto
 
     if (validating) {
-      const mappedProducts = validationData.map((product) => ({code: product.code, newPrice: product.newPrice}))
-      body = {products: mappedProducts}
+      const mappedProducts = validationData.map((product) => ({
+        code: product.code,
+        newPrice: product.newPrice
+      }))
+      body = { products: mappedProducts }
     } else {
-      body =  new FormData()
+      body = new FormData()
       body.append('file', value as File)
     }
     mutate(body)
   }
 
   const isReady = () => {
-    if(!validating) return false
+    if (!validating) return false
     return !validationData.every((product) => product.valid)
   }
 
   return (
     <Box
       component="form"
-      px={{xs: 1, md: 4}}
+      px={{ xs: 1, md: 4 }}
       py={1}
-      sx={{textAlign: 'center'}}
+      sx={{ textAlign: 'center' }}
       onSubmit={handleSubmit}
     >
       <DialogTitle fontWeight="bold">Atualizar preços</DialogTitle>
       <DialogContent dividers>
         <Stack spacing={2}>
-            {validating
-              ? <ProductList products={validationData} />
-              : (
-                <FormControl>
-                  <FormLabel>Clique no campo abaixo e escolha o arquivo</FormLabel>
-                  <MuiFileInput
-                    color="primary"
-                    inputProps={{accept:".csv"}}
-                    size='small'
-                    value={value}
-                    onChange={handleChange}
-                  />
-                  <FormHelperText>Formato permitido: .csv</FormHelperText>
-                </FormControl>
-                 )
-              }
+          {validating ? (
+            <ProductList products={validationData} />
+          ) : (
+            <FormControl>
+              <FormLabel>Clique no campo abaixo e escolha o arquivo</FormLabel>
+              <MuiFileInput
+                color="primary"
+                inputProps={{ accept: '.csv' }}
+                size="small"
+                value={value}
+                onChange={handleChange}
+              />
+              <FormHelperText>Formato permitido: .csv</FormHelperText>
+            </FormControl>
+          )}
         </Stack>
       </DialogContent>
-      {!isReady()
-        ? null
-        : (
-            <DialogContentText mt={1} color="error" variant='body2'>
-              Não é possível atualizar, verifique os erros.
-            </DialogContentText>
-          )
-      }
+      {!isReady() ? null : (
+        <DialogContentText mt={1} color="error" variant="body2">
+          Não é possível atualizar, verifique os erros.
+        </DialogContentText>
+      )}
 
       <DialogActions>
         <Button onClick={handleCloseDialog} variant="outlined">
           Cancelar
         </Button>
 
-        <Button
-          variant='contained'
-          disabled={isReady()}
-          type="submit"
-        >
+        <Button variant="contained" disabled={isReady()} type="submit">
           {validating ? 'Atualizar' : 'Validar'}
         </Button>
       </DialogActions>

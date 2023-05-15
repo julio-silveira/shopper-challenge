@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react'
-import { TableBody, TableCell, TableRow } from '@mui/material'
 import { GenericObject } from '@/types/GenericObject'
 import { toBrl } from '@/utils/Format'
+import { TableBody, TableCell, TableRow } from '@mui/material'
+import React from 'react'
 
 type Props = {
   dataList: GenericObject[]
@@ -14,7 +14,7 @@ export default function TableRowSet({
   dataList,
   emptyRows,
   page,
-  rowsPerPage,
+  rowsPerPage
 }: Props) {
   return (
     <TableBody>
@@ -23,12 +23,12 @@ export default function TableRowSet({
         ?.map((e, i) => (
           <TableRow key={i}>
             {Object.entries(e).map(([key, value], index) =>
-              key.includes('Price')
-              ? <TableCell key={`${value} ${index}`}>{toBrl(value)}
-              </TableCell> : (
+              key.includes('Price') ? (
+                <TableCell key={`${value} ${index}`}>{toBrl(value)}</TableCell>
+              ) : (
                 <TableCell key={`${value} ${index}`}>{value}</TableCell>
               )
-              )}
+            )}
           </TableRow>
         ))}
       {emptyRows > 0 && (

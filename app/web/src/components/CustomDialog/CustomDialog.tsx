@@ -1,6 +1,7 @@
-import React from 'react'
-import { Dialog } from '@mui/material'
 import { useDialog } from '@/hooks'
+import { Dialog } from '@mui/material'
+import React from 'react'
+
 import CustomContent from './components/CustomContent'
 
 function CustomDialog() {

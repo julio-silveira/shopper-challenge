@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction, createContext } from 'react'
 import { DialogType } from '@/types/DialogType'
-
+import { Dispatch, SetStateAction, createContext } from 'react'
 
 export type DialogContextData = {
   isOpen: boolean
@@ -8,7 +7,7 @@ export type DialogContextData = {
   dialogType: DialogType
   handleOpenDialog: (form: DialogType) => void
   handleCloseDialog: () => void
-  setValidating:  Dispatch<SetStateAction<boolean>>
+  setValidating: Dispatch<SetStateAction<boolean>>
 }
 const DialogContext = createContext({} as DialogContextData)
 

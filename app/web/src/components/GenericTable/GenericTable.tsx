@@ -1,5 +1,4 @@
-import React, { ReactNode, useState } from 'react'
-
+import { GenericObject } from '@/types/GenericObject'
 import {
   Paper,
   Table,
@@ -8,7 +7,8 @@ import {
   Typography
 } from '@mui/material'
 import { Box } from '@mui/system'
-import { GenericObject } from '@/types/GenericObject'
+import React, { useState } from 'react'
+
 import { Loading } from '../Loading'
 import TableHeader from './components/TableHeader'
 import TableRowSet from './components/TableRowSet'

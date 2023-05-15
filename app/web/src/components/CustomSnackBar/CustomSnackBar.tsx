@@ -1,14 +1,9 @@
-import React from 'react'
 import { useSnackBar } from '@/hooks'
 import { Alert, Snackbar } from '@mui/material'
+import React from 'react'
 
 export default function CustomSnackBar() {
-  const {
-    isOpen,
-    handleCloseSnackBar,
-    color,
-    message
-  } = useSnackBar()
+  const { isOpen, handleCloseSnackBar, color, message } = useSnackBar()
   return (
     <Snackbar
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

@@ -1,8 +1,9 @@
-import { DialogContext, SnackBarContext } from '@/context';
-import { useContext } from 'react';
+import { SnackBarContext } from '@/context'
+import { useContext } from 'react'
 
 export default function UseSnackBar() {
-  const {isOpen, color, message, handleCloseSnackBar, handleOpenSnackBar} = useContext(SnackBarContext)
+  const { isOpen, color, message, handleCloseSnackBar, handleOpenSnackBar } =
+    useContext(SnackBarContext)
 
-  return {isOpen,color, message, handleCloseSnackBar, handleOpenSnackBar}
+  return { isOpen, color, message, handleCloseSnackBar, handleOpenSnackBar }
 }
