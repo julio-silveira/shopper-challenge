@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "feature de atualização de preços para um ecommerce",
   "scripts": {
-    "compose:up": "cd app/  && docker compose up --build",
-    "compose:down": "cd app/  && docker compose down"
+    "compose:up": "cd app/  && docker-compose up --build",
+    "compose:down": "cd app/  && docker-compose down"
   },
   "repository": {
     "type": "git",
