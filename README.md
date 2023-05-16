@@ -20,25 +20,25 @@ Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preç
 
 # Como Utilizar
 
-1. Clone o repositório repositório para sua máquina utilizando o comando: 
+1. Clone o repositório para sua máquina utilizando o comando:
   
 	`git clone git@github.com:julio-silveira/shopper-challenge.git`
 
-2. Após finalizar o download, abra a pasta /app e crie um arquivo **.env** contendo as mesmas váriaveis de ambiente presente no arquivo **.env.example**, ou use os dados do exemplo abaixo:
+2. Após finalizar o download, abra a pasta **/app** e crie um arquivo **.env** contendo as mesmas variáveis de ambiente presentes no arquivo **.env.example**, ou use os dados do exemplo abaixo:
 	<pre><code> DATABASE_URL=mysql://root:root@db:3306/shopper
 	PORT=3000
 	WEB_PORT=5173
 	VITE_API_URL=http://localhost:${PORT}/</code></pre>
 
-3. Abra um terminal na **pasta raiz** do repositório e execute o comando <code>npm run compose:up</code> ou o comando <code>docker-compose up</code> na pasta **/app**;
+3. Abra um terminal na **pasta raiz do repositório** e execute o comando <code>npm run compose:up</code> ou o comando <code>docker-compose</code> up na pasta /app;
 
-4.  Aguarde todos containeres ficarem de pé;
+4. Aguarde todos os contêineres ficarem de pé;
 
-5. Após isso, você poderá acessar o frontend da aplicação localmente através do localhost na porta escolhida na váriavel de ambiente WEB_PORT. Por padrão,  a página pode ser acessada nesse link: <link>http://localhost:5173</link>
+5. Após isso, você poderá acessar o frontend da aplicação localmente através do localhost na porta escolhida na variável de ambiente WEB_PORT. Por padrão, a página pode ser acessada nesse link: <link>http://localhost:5173</link>
 
-6. A api pode ser acessada também utilizando o localhost na porta escolhida na váriavel de ambiente PORT, por padrão <link>http://localhost:3000/</link>, já a documentação da api(swagger) pode ser acessada na rota **/api**: <link>http://localhost:3000/api</link>.
+6.A API pode ser acessada também utilizando o localhost na porta escolhida na variável de ambiente PORT, por padrão <link>http://localhost:3000/<link> Já a documentação da API (Swagger) pode ser acessada na rota **/api <link>http://localhost:3000/api</link>.
 
-7. Na pasta /data existem dois arquivos .csv, um que pode ser utilizado para atualizar produtos com sucesso (rightprices.csv) e outro que propositalmente gera alguns erros para simplificar a testagem da aplicação (wrongprices.csv)
+7. Existem dois arquivos .csv na pasta /data: rightprices.csv, que pode ser utilizado para atualizar produtos com sucesso, e wrongprices.csv, que propositalmente gera alguns erros para facilitar a testagem da aplicação.
 
 ## Preview
 
