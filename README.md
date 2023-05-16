@@ -22,7 +22,7 @@ Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preç
 
 1. Clone o repositório repositório para sua máquina utilizando o comando: 
   
-	`git clone git@github.com:julio-silveira/shopper.git`
+	`git clone git@github.com:julio-silveira/shopper-challenge.git`
 
 2. Após finalizar o download, abra a pasta /app e crie um arquivo **.env** contendo as mesmas váriaveis de ambiente presente no arquivo **.env.example**, ou use os dados do exemplo abaixo:
 	<pre><code> DATABASE_URL=mysql://root:root@db:3306/shopper
@@ -30,7 +30,7 @@ Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preç
 	WEB_PORT=5173
 	VITE_API_URL=http://localhost:${PORT}/</code></pre>
 
-3. Abra um terminal na **pasta raiz** do repositório e execute o comando <code>npm run compose:up</code> ou o  <code>comando docker-compose up</code> na pasta **/app**;
+3. Abra um terminal na **pasta raiz** do repositório e execute o comando <code>npm run compose:up</code> ou o comando <code>docker-compose up</code> na pasta **/app**;
 
 4.  Aguarde todos containeres ficarem de pé;
 
