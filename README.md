@@ -1,11 +1,11 @@
-# Desafio Shopper
+# 🛒 Desafio Shopper
 
-# 🎯Objetivo
+# 🎯Objetivo:
 
 Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preços de produtos por meio de um arquivo .csv, contendo o código e o novo preço de cada produto, além de prover toda a infraestrutura necessária para garantir a efetividade dessa funcionalidade.
    
   
-# 🖥️Tecnologias utilizadas
+# 🖥️Tecnologias utilizadas:
   
 ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
@@ -18,7 +18,13 @@ Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preç
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 
-# Como Utilizar
+
+## 📋 Pré-requisitos:
+
+- Docker versão 23.0.5
+- Docker compose versão v2.5.0
+
+# 🛠️ Como Utilizar:
 
 1. Clone o repositório para sua máquina utilizando o comando:
   
@@ -40,7 +46,7 @@ Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preç
 
 7. Existem dois arquivos .csv na pasta /data: rightprices.csv, que pode ser utilizado para atualizar produtos com sucesso, e wrongprices.csv, que propositalmente gera alguns erros para facilitar a testagem da aplicação.
 
-## Preview
+## 📷 Preview:
 
 #### Upload form 1 - início
 ![alt text](./preview/tela2.png)
@@ -67,7 +73,7 @@ Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preç
 ![alt text](./preview/testcov.png)
 
 
-## Aplicação
+## 💻 Aplicação:
 
 O objetivo da aplicação é permitir que o usuário carregue um arquivo de precificação contendo o código e o novo preço de cada produto.
 
