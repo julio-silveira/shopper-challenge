@@ -30,7 +30,7 @@ Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preç
 	WEB_PORT=5173
 	VITE_API_URL=http://localhost:${PORT}/</code></pre>
 
-3. Abra um terminal na **pasta raiz do repositório** e execute o comando <code>npm run compose:up</code> ou o comando <code>docker-compose</code> up na pasta /app;
+3. Abra um terminal na **pasta raiz do repositório** e execute o comando <code>npm run compose:up</code> ou o comando <code>docker-compose up</code> na pasta /app;
 
 4. Aguarde todos os contêineres ficarem de pé;
 
