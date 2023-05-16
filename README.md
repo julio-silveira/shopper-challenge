@@ -34,7 +34,7 @@ Desenvolver uma aplicação Fullstack capaz de realizar a atualização de preç
 
 4.  Aguarde todos containeres ficarem de pé;
 
-5. Após isso, você poderá acessar o frontend da aplicação através localmente através do localhost na porta escolhida na váriavel de ambiente WEB_PORT, por padrão, podendo ser acessada nesse link: <link>http://localhost:5173 </link>
+5. Após isso, você poderá acessar o frontend da aplicação localmente através do localhost na porta escolhida na váriavel de ambiente WEB_PORT. Por padrão,  a página pode ser acessada nesse link: <link>http://localhost:5173</link>
 
 6. A api pode ser acessada também utilizando o localhost na porta escolhida na váriavel de ambiente PORT, por padrão <link>http://localhost:3000/</link>, já a documentação da api(swagger) pode ser acessada na rota **/api**: <link>http://localhost:3000/api</link>.
 
